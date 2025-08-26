@@ -8,25 +8,36 @@ const SignosPage = () => {
   const [dataDeAniversario, setDataDeAniversario] = useState("");
   const [signo, setSigno] = useState("");
 
-  const getSigno = (mes: number, dia: number): string => {
-if ((mes === 1 && dia >= 20) || (mes === 2 && dia <= 18)) return "Aquário";
-if ((mes === 2 && dia >= 19) || (mes === 3 && dia <= 20)) return "Peixes";
-if ((mes === 3 && dia >= 21) || (mes === 4 && dia <= 19)) return "Áries";
-if ((mes === 4 && dia >= 20) || (mes === 5 && dia <= 20)) return "Touro";
-if ((mes === 5 && dia >= 21) || (mes === 6 && dia <= 20)) return "Gêmeos";
-if ((mes === 6 && dia >= 21) || (mes === 7 && dia <= 22)) return "Câncer";
-if ((mes === 7 && dia >= 23) || (mes === 8 && dia <= 22)) return "Leão";
-if ((mes === 8 && dia >= 23) || (mes === 9 && dia <= 22)) return "Virgem";
-if ((mes === 9 && dia >= 23) || (mes === 10 && dia <= 22)) return "Libra";
-if ((mes === 10 && dia >= 23) || (mes === 11 && dia <= 21)) return "Escorpião";
-if ((mes === 11 && dia >= 22) || (mes === 12 && dia <= 21)) return "Sagitário";
-if ((mes === 12 && dia >= 22) || (mes === 1 && dia <= 19)) return "Capricórnio";
-return "Data inválida";
-}
+const getSigno = (mes: number, dia: number): string => {
+  const signos = [
+    { nome: "Capricórnio", inicio: { mes: 12, dia: 22 }, fim: { mes: 1, dia: 19 } },
+    { nome: "Aquário", inicio: { mes: 1, dia: 20 }, fim: { mes: 2, dia: 18 } },
+    { nome: "Peixes", inicio: { mes: 2, dia: 19 }, fim: { mes: 3, dia: 20 } },
+    { nome: "Áries", inicio: { mes: 3, dia: 21 }, fim: { mes: 4, dia: 19 } },
+    { nome: "Touro", inicio: { mes: 4, dia: 20 }, fim: { mes: 5, dia: 20 } },
+    { nome: "Gêmeos", inicio: { mes: 5, dia: 21 }, fim: { mes: 6, dia: 20 } },
+    { nome: "Câncer", inicio: { mes: 6, dia: 21 }, fim: { mes: 7, dia: 22 } },
+    { nome: "Leão", inicio: { mes: 7, dia: 23 }, fim: { mes: 8, dia: 22 } },
+    { nome: "Virgem", inicio: { mes: 8, dia: 23 }, fim: { mes: 9, dia: 22 } },
+    { nome: "Libra", inicio: { mes: 9, dia: 23 }, fim: { mes: 10, dia: 22 } },
+    { nome: "Escorpião", inicio: { mes: 10, dia: 23 }, fim: { mes: 11, dia: 21 } },
+    { nome: "Sagitário", inicio: { mes: 11, dia: 22 }, fim: { mes: 12, dia: 21 } },
+  ];
+
+  for (const signo of signos) {
+    if (
+      (mes === signo.inicio.mes && dia >= signo.inicio.dia) ||
+      (mes === signo.fim.mes && dia <= signo.fim.dia)
+    ) {
+      return signo.nome;
+    }
+  }
+  return "Data inválida";
+};
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const [mes, dia] = dataDeAniversario.split('-').map(Number);
+    const [, mes, dia] = dataDeAniversario.split('-').map(Number);
     const signoCalculado = getSigno(mes, dia);
     setSigno(signoCalculado);
     console.log("Data:", dataDeAniversario, "| Signo:", signoCalculado);
@@ -47,13 +58,11 @@ return "Data inválida";
     "Capricórnio": "Ambicioso, disciplinado e responsável. Foca em metas de longo prazo."
   };
 
-
   return (
     <div>
       <header>
-       <Header />
-        
-        </header>
+        <Header />
+      </header>
 
       <main>
         <Card className="text-center">
@@ -89,12 +98,13 @@ return "Data inválida";
       <footer>
         <div className="text-center mt-4">
           <Container className="py-3 bg-dark text-white">
-        <p>Feito com ❤️ por Edson Basilio</p>
-        <p>&copy; {new Date().getFullYear()} Adivinha. Todos os direitos reservados.</p>
-        </Container>
+            <p>Feito com ❤️ por Edson Basilio</p>
+            <p>&copy; {new Date().getFullYear()} Adivinha. Todos os direitos reservados.</p>
+          </Container>
         </div>
       </footer>
     </div>
   );
-}
+};
+
 export default SignosPage;
